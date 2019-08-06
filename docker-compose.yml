@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:11.2-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  web:
+    build: ./app
+    command: gunicorn composeexample.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - media_volume:/usr/src/app/media
+    expose:
+      - 8000
+    depends_on:
+      - db
+  nginx:
+    build: ./nginx
+    volumes:
+      - media_volume:/usr/src/app/media
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+volumes:
+  postgres_data:
+  media_volume:
