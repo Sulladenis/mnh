@@ -7,7 +7,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/
   web:
     build: ./app
-    command: gunicorn composeexample.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn mnh.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - media_volume:/usr/src/app/media
     expose:
