@@ -63,7 +63,7 @@ def get_urls_pagelist(url_pagelist: str) -> list:
 def get_all_urls_articles() -> list:
     """Returns a list of links to all articles"""
     all_urls = get_pagelists()
-    with Pool(5) as pool:
+    with Pool(1) as pool:
        ll = pool.map(get_urls_pagelist, all_urls)
     l = []
     for i in ll:
@@ -118,11 +118,13 @@ def mv_one_post(url):
     print(f'copying the article {post} is complete')
         
 
-def main(url_list):
+def main_old(url_list):
     """Asynchronously processes each article from the list"""
-    with Pool(5) as pool:
+    with Pool(1) as pool:
         pool.map(mv_one_post, url_list)
 
+def main(url_list):
+    map(mv_one_post, url_list)
 
 #import blog.blogdata
 
