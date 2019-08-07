@@ -63,7 +63,7 @@ def get_urls_pagelist(url_pagelist: str) -> list:
 def get_all_urls_articles() -> list:
     """Returns a list of links to all articles"""
     all_urls = get_pagelists()
-    with Pool(10) as pool:
+    with Pool(5) as pool:
        ll = pool.map(get_urls_pagelist, all_urls)
     l = []
     for i in ll:
@@ -120,7 +120,7 @@ def mv_one_post(url):
 
 def main(url_list):
     """Asynchronously processes each article from the list"""
-    with Pool(10) as pool:
+    with Pool(5) as pool:
         pool.map(mv_one_post, url_list)
 
 
