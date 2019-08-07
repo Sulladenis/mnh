@@ -10,6 +10,7 @@ services:
     command: gunicorn mnh.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - media_volume:/usr/src/app/media
+      - migrate_date:/usr/src/app/blog/migrations
     expose:
       - 8000
     depends_on:
@@ -25,3 +26,4 @@ services:
 volumes:
   postgres_data:
   media_volume:
+  migrate_date:
