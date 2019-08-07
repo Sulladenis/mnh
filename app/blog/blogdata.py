@@ -45,7 +45,7 @@ def get_img_page_detail(url: str) -> list:
 
 def get_pagelists() -> list:
     """The function generates article list pages"""
-    url_list = ['http://monaha.ru/blog/' + str(i) for i in range(4, 0, -1)]
+    url_list = ['http://monaha.ru/blog/' + str(i) for i in range(48, 0, -1)]
     return url_list
 
 
