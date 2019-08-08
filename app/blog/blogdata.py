@@ -124,8 +124,9 @@ def main_old(url_list):
         pool.map(mv_one_post, url_list)
 
 def main(url_list):
-    map(mv_one_post, url_list)
+    for url in url_list:
+        mv_one_post(url)
 
 #import blog.blogdata
 
-#blog.blogdata.main(blog.blogdata.get_all_urls_articles())
+#blog.blogdata.main_old(blog.blogdata.get_all_urls_articles())
