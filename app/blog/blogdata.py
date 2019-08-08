@@ -4,7 +4,8 @@ from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.files.images import File, ImageFile
 from blog.models import BlogPhoto, Blog
-from multiprocessing import Pool 
+from multiprocessing import Pool
+import warnings 
 
 path_temp = os.path.join(settings.BASE_DIR, 'temp')
 locale.setlocale(locale.LC_TIME, 'ru_RU.UTF-8')
@@ -63,7 +64,7 @@ def get_urls_pagelist(url_pagelist: str) -> list:
 def get_all_urls_articles() -> list:
     """Returns a list of links to all articles"""
     all_urls = get_pagelists()
-    with Pool(1) as pool:
+    with Pool(10) as pool:
        ll = pool.map(get_urls_pagelist, all_urls)
     l = []
     for i in ll:
@@ -83,6 +84,7 @@ def upload_file(img_url, file_name):
 def add_blog_photo(post, file_name):
     """The function receives a link to the object of the Blog model and the name of the image,
        saves the images in Django and links it to the Blog."""
+    warnings.filterwarnings("ignore", "(Possibly )?corrupt EXIF data", UserWarning)
     with open(os.path.join(path_temp, file_name), 'rb') as f:
         myfile = ImageFile(f)
         ratio =  myfile.width / myfile.height
@@ -120,7 +122,7 @@ def mv_one_post(url):
 
 def main_old(url_list):
     """Asynchronously processes each article from the list"""
-    with Pool(1) as pool:
+    with Pool(5) as pool:
         pool.map(mv_one_post, url_list)
 
 def main(url_list):
