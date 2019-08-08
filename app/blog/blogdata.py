@@ -87,7 +87,10 @@ def add_blog_photo(post, file_name):
     warnings.filterwarnings("ignore", "(Possibly )?corrupt EXIF data", UserWarning)
     with open(os.path.join(path_temp, file_name), 'rb') as f:
         myfile = ImageFile(f)
-        ratio =  myfile.width / myfile.height
+        try:
+            ratio =  myfile.width / myfile.height
+        except TypeError:
+            ratio = 1
         img = BlogPhoto.objects.create(blog = post, ratio=ratio)
         if myfile.size >= 5000:
             img.photo.save(name=file_name, content=myfile)
